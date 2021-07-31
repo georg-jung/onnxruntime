@@ -23,6 +23,7 @@ set(mlas_common_srcs
   ${ONNXRUNTIME_ROOT}/core/mlas/lib/qlmul.cpp
   ${ONNXRUNTIME_ROOT}/core/mlas/lib/qpostprocessor.cpp
   ${ONNXRUNTIME_ROOT}/core/mlas/lib/qlgavgpool.cpp
+  ${ONNXRUNTIME_ROOT}/core/mlas/lib/vector_dot_product.cpp
 )
 
 if (onnxruntime_BUILD_WEBASSEMBLY)
@@ -316,6 +317,7 @@ else()
       ${ONNXRUNTIME_ROOT}/core/mlas/lib/x86_64/SpoolKernelAvx.S
       ${ONNXRUNTIME_ROOT}/core/mlas/lib/x86_64/SoftmaxKernelAvx.S
       ${ONNXRUNTIME_ROOT}/core/mlas/lib/intrinsics/avx/min_max_elements.cpp
+      ${ONNXRUNTIME_ROOT}/core/mlas/lib/intrinsics/avx/vector_dot_product_avx.cpp
     )
     set_source_files_properties(${mlas_platform_srcs_avx} PROPERTIES COMPILE_FLAGS "-mavx")
 

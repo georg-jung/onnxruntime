@@ -173,6 +173,15 @@ void ComputeMatMulSlow(const int64_t a,
 }
 
 template <typename T>
+void ComputeVectorDotProd(const int64_t a,
+                          const int64_t b,
+                          const T* a_data,
+                          const T* b_data,
+                          T* output_data) {
+  MlasVectorDotProduct(a_data, b_data, a, b);
+}
+
+template <typename T>
 void ComputeBiasGelu(const int64_t bias_size,
                      const T* input_data,
                      const T* bias_data,
@@ -402,11 +411,11 @@ Status EmbedLayerNormBiasGelu<T>::Compute(OpKernelContext* context) const {
         //              matmul_1_b_data,
         //              matmul_1_packed_b_,
         //              matmul_1_output + offset);
-        ComputeMatMulSlow(hidden_size,
-                          bias_size,
-                          skip_layer_norm_output_data + (task_idx * hidden_size),
-                          matmul_1_b_data,
-                          matmul_1_output + offset);
+        ComputeVectorDotProd(hidden_size,
+                             bias_size,
+                             skip_layer_norm_output_data + (task_idx * hidden_size),
+                             matmul_1_b_data,
+                             matmul_1_output + offset);
 
         // Use the row calculated in the MatMul #1 and pass through for BiasGelu
         // calculation:
@@ -427,11 +436,11 @@ Status EmbedLayerNormBiasGelu<T>::Compute(OpKernelContext* context) const {
         //              matmul_2_b_data,
         //              matmul_2_packed_b_,
         //              output_data + (task_idx * hidden_size));
-        ComputeMatMulSlow(bias_size,
-                          hidden_size,
-                          bias_gelu_output + offset,
-                          matmul_2_b_data,
-                          output_data + (task_idx * hidden_size));
+        ComputeVectorDotProd(bias_size,
+                             hidden_size,
+                             bias_gelu_output + offset,
+                             matmul_2_b_data,
+                             output_data + (task_idx * hidden_size));
       },
       0);
 
