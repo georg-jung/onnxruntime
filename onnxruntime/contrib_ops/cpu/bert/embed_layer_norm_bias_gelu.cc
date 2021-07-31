@@ -178,7 +178,7 @@ void ComputeVectorDotProd(const int64_t a,
                           const T* a_data,
                           const T* b_data,
                           T* output_data) {
-  MlasVectorDotProduct(a_data, b_data, a, b);
+  MlasVectorDotProduct(a_data, b_data, output_data, a, b);
 }
 
 template <typename T>
