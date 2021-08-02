@@ -701,12 +701,12 @@ if(NOT WIN32 AND NOT onnxruntime_PREFER_SYSTEM_LIB)
     add_subdirectory(${nsync_SOURCE_DIR} EXCLUDE_FROM_ALL)	
   else()
     FetchContent_Declare(
-      nsync
+      google_nsync
       GIT_REPOSITORY https://github.com/google/nsync.git
       GIT_TAG        436617053d0f39a1019a371c3a9aa599b3cb2cea
-      SOURCE_SUBDIR  nsync
     )
-    FetchContent_MakeAvailable(nsync)
+    FetchContent_MakeAvailable(google_nsync)
+	set(nsync_SOURCE_DIR ${google_nsync_SOURCE_DIR})
   endif()
 endif()
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/external)
