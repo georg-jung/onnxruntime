@@ -380,6 +380,8 @@ Status EmbedLayerNormBiasGelu<T>::Compute(OpKernelContext* context) const {
 
   //----------------------------------------------------------------------------
 
+  int thread_count = concurrency::ThreadPool::DegreeOfParallelism(context->GetOperatorThreadPool());
+
   int64_t task_count = batch_size * sequence_length;
   concurrency::ThreadPool::TryBatchParallelFor(
       context->GetOperatorThreadPool(), static_cast<int32_t>(task_count),
